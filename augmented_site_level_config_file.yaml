@@ -18,6 +18,7 @@ lightweight_components:
     node: simple-lc01.cern.ch
     container_count: 1
   config:
+    condor_host: 10.0.0.11
     gss_assist_gridmap_cache_expiration: 7200
     per_job_history_dir: /var/lib/gratia/condorce_data
     uid_domain: cern.ch
@@ -33,6 +34,7 @@ lightweight_components:
     node: simple-lc03.cern.ch
     container_count: 1
   config:
+    condor_host: 10.0.0.11
     num_slots: 2
   repository_revision: master
   supplemental_config:
@@ -55,6 +57,7 @@ lightweight_components:
     node: simple-lc04.cern.ch
     container_count: 1
   config:
+    condor_host: "0.0.0.0:9619"
   repository_revision: master
   supplemental_config:
   repository_url: https://github.com/WLCG-Lightweight-Sites/simple_htcondor_external_submitter
