@@ -10,7 +10,7 @@ RUN wget https://research.cs.wisc.edu/htcondor/yum/RPM-GPG-KEY-HTCondor
 RUN rpm --import RPM-GPG-KEY-HTCondor
 WORKDIR /etc/yum.repos.d/
 RUN wget https://research.cs.wisc.edu/htcondor/yum/repo.d/htcondor-stable-rhel7.repo
-RUN yum -y install condor
+RUN yum -y install condor htcondor-ce-condor
 
 ## Install certs ##
 RUN yum -y install fetch-crl globus-rsl empty-ca-certs
@@ -23,7 +23,6 @@ RUN yum install -y iproute openssh openssh-server openssh-clients openssl-libs
 RUN yum install -y net-tools
 
 ## default users ##
-RUN useradd -m simple
 RUN adduser -m condor_user
 
 ENV container docker
@@ -36,6 +35,6 @@ rm -f /lib/systemd/system/sockets.target.wants/*udev*; \
 rm -f /lib/systemd/system/sockets.target.wants/*initctl*; \
 rm -f /lib/systemd/system/basic.target.wants/*;\
 rm -f /lib/systemd/system/anaconda.target.wants/*;
-
+WORKDIR /etc/condor/
 VOLUME [ "/sys/fs/cgroup" ]
 CMD ["/usr/sbin/init"]

@@ -17,4 +17,8 @@ class SubmitConfig(ConfigFile):
 
     def add_advanced_parameters(self):
         super().add_advanced_parameters()
-
+        condor_host = self.lightweight_component['config']['condor_host']
+        condor_host_port = self.lightweight_component['config']['condor_host_port']
+        self.advanced_category.add_key_value("condor_host",
+                                             "{condor_host}:{condor_host_port}".format(condor_host=condor_host,
+                                                                                       condor_host_port=condor_host_port))

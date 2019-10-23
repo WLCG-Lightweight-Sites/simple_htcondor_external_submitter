@@ -57,7 +57,8 @@ lightweight_components:
     node: simple-lc04.cern.ch
     container_count: 1
   config:
-    condor_host: "0.0.0.0:9619"
+    condor_host: "172.23.0.3"
+    condor_host_port: 9619
   repository_revision: master
   supplemental_config:
   repository_url: https://github.com/WLCG-Lightweight-Sites/simple_htcondor_external_submitter

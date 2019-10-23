@@ -1,2 +1,3 @@
 expected-from-site-level-config:
   condor_host: {type: str(), required: true, use_default: false}
+  condor_host_port: {type: int(), required: true, use_default: true}
