@@ -1,6 +1,6 @@
 import argparse
 import yaml
-from files.config_50PC import WorkerConfig
+from files.config_50PC import SubmitConfig
 
 
 def parse_args():
@@ -24,5 +24,5 @@ if __name__ == "__main__":
 
     augmented_site_level_config = yaml.safe_load(open(augmented_site_level_config_file, 'r'))
 
-    config_50PC = WorkerConfig("{output_dir}/50PC.config".format(output_dir=output_dir), augmented_site_level_config, execution_id)
+    config_50PC = SubmitConfig("{output_dir}/50PC.config".format(output_dir=output_dir), augmented_site_level_config, execution_id)
     config_50PC.generate_output_file()
