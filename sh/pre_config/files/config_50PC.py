@@ -1,4 +1,5 @@
 from models.config_file import ConfigFile
+from generic_helpers import get_dns_info
 import array
 
 
@@ -11,14 +12,9 @@ class SubmitConfig(ConfigFile):
         self.static_category.add("Use Role: submit\n")
         self.static_category.add_key_value("allow_write", "*")
 
-    def add_lightweight_component_queried_parameters(self):
-        super().add_lightweight_component_queried_parameters()
-        self.lightweight_component_queried_category.add_key_value_query("condor_host", "$.config.condor_host")
-
     def add_advanced_parameters(self):
         super().add_advanced_parameters()
-        condor_host = self.lightweight_component['config']['condor_host']
-        condor_host_port = self.lightweight_component['config']['condor_host_port']
-        self.advanced_category.add_key_value("condor_host",
-                                             "{condor_host}:{condor_host_port}".format(condor_host=condor_host,
-                                                                                       condor_host_port=condor_host_port))
+        condor_host_execution_id = self.lightweight_component['config']['condor_host_execution_id']
+        condor_host_dns = get_dns_info(self.augmented_site_level_config, condor_host_execution_id)
+        condor_host_ip = condor_host_dns['container_ip']
+        self.advanced_category.add_key_value("condor_host", condor_host_ip)

@@ -1,12 +1,23 @@
 import yaql
 
-
 engine = yaql.YaqlFactory().create()
+
+
+def get_dns_info(data, id):
+    dns_section = data['dns']
+    dns = None
+    for dns_info in dns_section:
+        if dns_info['execution_id'] == id:
+            dns = dns_info
+            break
+    return dns
+
 
 def get_lightweight_component(data, id):
     for component in data['lightweight_components']:
         if component['execution_id'] is int(id):
             return component
+
 
 def evaluate(data, query):
     expression = engine(query)

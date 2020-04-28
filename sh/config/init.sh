@@ -22,6 +22,7 @@ echo "----------------------------------"
 cp -r $SIMPLE_CONFIG_DIR/config/sleep_job /home/condor_user/sleep_job
 chown -R condor_user /home/condor_user/sleep_job
 mkdir /home/condor_user/.globus
+cp -r $SIMPLE_CONFIG_DIR/config/user* /home/condor_user/.globus
 chown -R condor_user /home/condor_user/.globus
 
 echo "Initialization Complete!"
