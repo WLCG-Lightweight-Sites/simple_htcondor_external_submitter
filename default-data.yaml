@@ -1,2 +1,2 @@
-htcondor_external_submit-expected-from-site-level-config:
-  htcondor_external_submit_default_var_condor_host_port: &htcondor_external_submit_default_var_condor_host_port 9619
+htcondor-external-submitter-expected-from-site-level-config:
+  htcondor_external_submitter_default_var_condor_host_port: &htcondor_external_submit_default_var_condor_host_port 9619
