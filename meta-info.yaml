@@ -1,4 +1,4 @@
-component : "htcondor_submitter"
+component : HTCondor-External-Submitter
 type: submit_node
 version : 8.8
 site_level_config_version: 1.0
