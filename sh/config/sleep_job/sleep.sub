@@ -1,0 +1,12 @@
+universe                = grid
+executable              = sleep.sh
+log                     = sleep.log
+output                  = outfile.txt
+error                   = errors.txt
+should_transfer_files   = Yes
+when_to_transfer_output = ON_EXIT
+use_x509userproxy = true
++WantJobRouter = true
++TransferOutput = ""
+grid_resource = condor ce_fqdn ce_fqdn:9619
+queue
