@@ -6,6 +6,8 @@ ENV HTCONDOR_CE_CONFIG_DIR=/etc/condor-ce
 ENV HTCONDOR_CONFIG_DIR=/etc/condor
 
 RUN yum install -y wget
+RUN mkdir -p /run/lock/condor-ce
+RUN mkdir -p /run/lock/condor
 RUN wget https://research.cs.wisc.edu/htcondor/yum/RPM-GPG-KEY-HTCondor
 RUN rpm --import RPM-GPG-KEY-HTCondor
 WORKDIR /etc/yum.repos.d/
