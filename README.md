@@ -4,14 +4,14 @@ Component Repository for submitting test jobs to HTCondor CE using a network oth
 # Installation Instructions
 
 ## Prequisites
-1. Ensure SELinux is disabled on your host machine.
+- Ensure SELinux is disabled on your host machine.
 
-  ```
-  [root@simple-condor-generic-submitter ~]# sestatus
-  SELinux status:                 disabled 
-
-  ```
-2. Git clone the repository
+    ```
+    [root@simple-condor-generic-submitter ~]# sestatus
+    SELinux status:                 disabled 
+    
+    ```
+- Git clone the repository
 
   ```
     yum install -y git
@@ -19,7 +19,7 @@ Component Repository for submitting test jobs to HTCondor CE using a network oth
     git clone https://github.com/simple-framework/simple_htcondor_external_submitter
   ```
   
-3. Copy your Grid User Certificate
+- Copy your Grid User Certificate
   ```
    cd ~/simple_htcondor_external_submitter/sh/config
    ### copy your usercert.pem and userkey.pem in this directory ###
@@ -36,7 +36,7 @@ Component Repository for submitting test jobs to HTCondor CE using a network oth
   -rw------- 1 root root 1958 Aug  2 12:48 userkey.pem
   ```
 
-4. Install Docker (>=19)
+- Install Docker (>=19)
   - Follow instructions here: https://docs.docker.com/engine/install/centos/
   - ``` systemctl start docker ```
   
@@ -45,7 +45,57 @@ Component Repository for submitting test jobs to HTCondor CE using a network oth
 ``` 
 cd ~/simple_htcondor_external_submitter/sh
 docker build -t simple_htcondor_external_submitter .
-docker run --name simple_htcondor_external_submitter -itd --net host --privileged -v ~/simple_htcondor_external_submitter/sh/config:/etc/simple_grid/config simple_htcondor_external_submitter
+docker run --name simple_htcondor_external_submitter -itd --net host --privileged -v ~/simple_htcondor_external_submitter/sh/config:/etc/simple_grid/config -v /sys/fs/cgroup/:/sys/fs/cgroup/ simple_htcondor_external_submitter
 ```
 
+## Configure the container
+- Enter the container:
+    ```
+    docker exec -it simple_htcondor_external_submitter bash
+    ```
+- Run the config script:
+    ```bash
+    /etc/simple_grid/config/init.sh
+    ```
 ## Submit a Job to an HTCondor CE
+
+- Enter the container:
+    ```bash
+    docker exec -it simple_htcondor_external_submitter bash
+    ```
+
+- Create the submit file:
+
+    ```bash
+    su condor_user
+    cd ~/sleep_job
+    voms-proxy-init
+    vim sleep.sub
+    ```
+    Add the following contents to sleep.sub and replace the {FQDN OF CE} with the fqdn of the CE where you wish to submit the job to.
+    ```text
+    # sleep.sub -- simple sleep job
+    
+    universe = grid
+    executable = sleep.sh
+    log = sleep.log
+    output = outfile.txt
+    error = errors.txt
+    should_transfer_files = Yes
+    when_to_transfer_output = ON_EXIT
+    use_x509userproxy = true
+    +WantJobRouter = true
+    +TransferOutput = ""
+    grid_resource = condor {FQDN OF CE} {FQDN OF CE}:9619
+    queue
+    ```
+
+- Submit the job
+    ```bash
+    condor_submit sleep.sub
+    ```
+ 
+ - Check the job status
+    ```bash
+    condor_q
+    ```
